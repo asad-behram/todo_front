@@ -37,8 +37,6 @@
       headers: { "Content-Type": "application/json" },
     });
     todolist = await res.json();
-    console.log(todolist);
-    console.log(filter);
   };
 
   const searchItems = async () => {
@@ -77,8 +75,9 @@
 </div>
 
 {#await isCompleted ? searchItems() : getItems() then}
-{@debug filter}
-  <List isCompleted= {isCompleted} filter = {filter}/>
+  {#each isCompleted ? filter.completedItems : filter.itemData as item}
+    <List completed = {item.completed} item = {item}/>
+  {/each}
 {/await}
 
 <style>

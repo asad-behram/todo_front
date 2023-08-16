@@ -3,8 +3,8 @@
   import date from 'date-and-time';
   import Icon from "./Icon.svelte";
 
-  export let isCompleted = false;
-  export let filter = [];
+  export let item;
+  export let completed;
 
   const updateItem = async (id) => {
     let data = {
@@ -18,7 +18,7 @@
     });
     const output = res.json();
     if (res.ok) {
-      getItems();
+      location.reload();
     }
   };
   const removeFromList = async (id) => {
@@ -31,26 +31,25 @@
   };
 
 </script>
+
 <div class="container">
-  {#each isCompleted ? filter.completedItems : filter.ItemData as item}
-    <div class="todo">
-      <a href="/task/{item._id}" use:link>
-        <span class="todo__text">{item.task}</span> <br>
-        <span>{date.format(new Date(item.updatedAt),'ddd, MMM DD YYYY HH:mm')}</span>
-      </a>
-      <div class="icons">
-        <button class="icon__button" on:click={updateItem(item._id)}>
-          <Icon name="check-mark" class="icon" />
-        </button>
-        <button class="icon__button" on:click={removeFromList(item._id)}>
-          <Icon name="delete" class="icon" />
-        </button>
-        <span class={item.completed ? "checked--strike" : "display"}>
-          <Icon name="done-mark" class="icon" />
-        </span>
-      </div>
+  <div class="todo">
+    <a href="/task/{item._id}" use:link>
+      <span class="todo__text">{item.task}</span> <br>
+      <span>{date.format(new Date(item.updatedAt),'ddd, MMM DD YYYY HH:mm')} </span>
+    </a>
+    <div class="icons">
+      <button class="icon__button" on:click={updateItem(item._id)}>
+        <Icon name="check-mark" class="icon" />
+      </button>
+      <button class="icon__button" on:click={removeFromList(item._id)}>
+        <Icon name="delete" class="icon" />
+      </button>
+      <span class={item.completed ? "checked--strike" : "display"}>
+        <Icon name="done-mark" class="icon" />
+      </span>
     </div>
-  {/each}
+  </div>
 </div>
 
   <style>
