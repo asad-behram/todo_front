@@ -33,7 +33,7 @@
 
 </script>
   {#await findTask(id) then}
-    <div>
+    <div class="main">
       <form class="todo-form" on:submit={update}>
         <label for="title"> <b>Task Name</b> </label>
         <input
@@ -59,7 +59,9 @@
         on:click={() => {completed = !completed}}
       />
       <label for="completed">completed</label>
-      <button class="bg-dark"> Update </button>
+      <div class="center">
+        <button class="bg-dark"> Update </button>
+      </div>
       </form>
     </div>
   {/await}
@@ -76,7 +78,7 @@
   }
 
  button {
-    width: 100%;
+    width: 50%;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -84,8 +86,11 @@
     border-radius: 4px;
     cursor: pointer;
   }
+  .center {
+    text-align: center;
+  }
 
-  div {
+  .main {
     border-radius: 5px;
     margin: 50px 80px 0px 80px;
     padding: 20px;
