@@ -1,6 +1,6 @@
 <script>
   import { link } from "svelte-spa-router";
-  import date from 'date-and-time';
+  import date from "date-and-time";
   import Icon from "./Icon.svelte";
 
   export let item;
@@ -29,14 +29,15 @@
     const output = res.json();
     window.location.reload();
   };
-
 </script>
 
 <div class="container">
   <div class="todo">
     <a href="/task/{item._id}" use:link>
-      <span class="todo__text">{item.task}</span> <br>
-      <span>{date.format(new Date(item.updatedAt),'ddd, MMM DD YYYY HH:mm')} </span>
+      <span class="todo__text">{item.task}</span> <br />
+      <span
+        >{date.format(new Date(item.updatedAt), "ddd, MMM DD YYYY HH:mm")}
+      </span>
     </a>
     <div class="icons">
       <button class="icon__button" on:click={updateItem(item._id)}>
@@ -52,10 +53,10 @@
   </div>
 </div>
 
-  <style>
-    a:link {
+<style>
+  a:link {
     text-decoration: none;
-    }
+  }
   .display {
     display: none;
   }
@@ -84,4 +85,4 @@
     justify-content: space-between;
     align-items: center;
   }
-  </style>
+</style>
