@@ -47,15 +47,11 @@
     completedTask = await res.json();
     return completedTask;
   };
-
 </script>
+
 <div class="container">
   <form class="todo-form" on:submit={save}>
-    <input
-      bind:value={task}
-      placeholder="Enter Title"
-      type="task"
-    />
+    <input bind:value={task} placeholder="Enter Title" type="task" />
     <input
       bind:value={description}
       placeholder="Enter Description"
@@ -64,19 +60,21 @@
     <button class="todos__button">ADD</button>
   </form>
   <div class="row">
-    <label for="{isCompleted}">Show completed items</label>
+    <label for={isCompleted}>Show completed items</label>
     <input
       type="checkbox"
       bind:value={isCompleted}
-      on:click={() => {isCompleted = !isCompleted}}
-      class= "checkbox"
+      on:click={() => {
+        isCompleted = !isCompleted;
+      }}
+      class="checkbox"
     />
   </div>
 </div>
 
 {#await isCompleted ? searchItems() : getItems() then}
   {#each isCompleted ? filter.completedItems : filter.itemData as item}
-    <List completed = {item.completed} item = {item}/>
+    <List completed={item.completed} {item} />
   {/each}
 {/await}
 
@@ -93,7 +91,6 @@
     font-size: 1.2rem;
     border-bottom: 1px solid black;
     margin-top: 15px;
-    
   }
   .todo-form {
     text-align: center;
