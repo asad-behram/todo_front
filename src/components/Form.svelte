@@ -7,7 +7,25 @@
   let completedTask = [];
   let isCompleted = false;
   let todolist = [];
+  let recaptchaResponse = null;
+  const recaptcha_secret = "6Le5R8snAAAAAIR6XYnUftRB4bPcAPjJOcC3ynhe";
   $: filter = isCompleted ? completedTask : todolist;
+
+  const loadRecaptcha = async () => {
+    const script = document.createElement('script');
+    script.src = `https://www.google.com/recaptcha/api.js?render=${recaptcha_secret}`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      grecaptcha.ready(() => {
+        grecaptcha.execute(recaptcha_secret, {action: 'submit'}.then(response => {
+          document.getElementById('g-recaptcha-response').value = response;
+        }));
+      });
+    };
+  }
 
   const save = async () => {
     if (!task) {
@@ -32,6 +50,7 @@
   };
 
   const getItems = async () => {
+    loadRecaptcha();
     const res = await fetch("http://localhost:3000/todo", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -40,6 +59,7 @@
   };
 
   const searchItems = async () => {
+    loadRecaptcha();
     const res = await fetch("http://localhost:3000/todo/search", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -58,6 +78,16 @@
       type="task"
     />
     <button class="todos__button">ADD</button>
+    <input
+      type="hidden"
+      id="g-recaptcha-response"
+      name="g-recaptcha-response"
+    />
+    <input 
+      type="hidden" 
+      name="action" 
+      value="validate_captcha" 
+    />
   </form>
   <div class="row">
     <label for={isCompleted}>Show completed items</label>
